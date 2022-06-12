@@ -46,6 +46,7 @@ dependencies {
     implementation libs.navigation.ui
     implementation libs.dagger
     implementation libs.retrofit.core
+    implementation libs.moshi.core
     testImplementation libs.test.junit
     androidTestImplementation libs.test.androidx.junitExt
     androidTestImplementation libs.test.espresso.core
