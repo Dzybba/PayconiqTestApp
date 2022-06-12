@@ -50,6 +50,10 @@ dependencyResolutionManagement {
             library('lifecycle.viewmodel', 'androidx.lifecycle', 'lifecycle-viewmodel-ktx').versionRef('lifecycleVersion')
             library('lifecycle.runtime', 'androidx.lifecycle', 'lifecycle-runtime-ktx').versionRef('lifecycleVersion')
 
+            version('androidxPagingVersion' ,'3.1.0')
+            library('paging.runtime', 'androidx.paging', 'paging-runtime-ktx').versionRef('androidxPagingVersion')
+            library('paging.common', 'androidx.paging', 'paging-common-ktx').versionRef('androidxPagingVersion')
+
             library('test.junit', 'junit:junit:4.13.2')
             library('test.androidx.junitExt', 'androidx.test.ext:junit:1.1.3')
             library('test.espresso.core', 'androidx.test.espresso:espresso-core:3.4.0')

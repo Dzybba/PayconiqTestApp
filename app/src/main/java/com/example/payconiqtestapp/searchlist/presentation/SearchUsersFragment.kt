@@ -43,20 +43,6 @@ class SearchUsersFragment : Fragment() {
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
-        observeViewModelEvents()
-    }
-
-    private fun observeViewModelEvents() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.uiState.collect {
-                        Log.e("DD", "get $it")
-                        // todo handle data
-                    }
-                }
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

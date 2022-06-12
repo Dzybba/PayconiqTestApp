@@ -8,11 +8,5 @@ sealed class ViewModelState {
 
     class LoadedState(
         val users: List<User>
-    ) : ViewModelState() {
-
-        class User(
-            val name: String,
-            val avatarUrl: String
-        )
-    }
+    ) : ViewModelState()
 }

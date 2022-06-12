@@ -49,6 +49,9 @@ dependencies {
     implementation libs.moshi.core
     implementation libs.lifecycle.viewmodel
     implementation libs.lifecycle.runtime
+    implementation libs.paging.common
+    implementation libs.paging.runtime
+
     testImplementation libs.test.junit
     androidTestImplementation libs.test.androidx.junitExt
     androidTestImplementation libs.test.espresso.core

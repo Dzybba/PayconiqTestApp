@@ -4,50 +4,53 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.savedstate.SavedStateRegistryOwner
+import com.example.payconiqtestapp.searchlist.data.dto.SearchUserDto
 import com.example.payconiqtestapp.searchlist.data.repository.SearchUserRepository
-import com.example.payconiqtestapp.searchlist.presentation.mapper.SearchResultToUserMapper
-import com.example.payconiqtestapp.searchlist.presentation.model.ViewModelState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import com.example.payconiqtestapp.searchlist.presentation.mapper.SearchUserDtoToUserMapper
+import com.example.payconiqtestapp.searchlist.presentation.model.User
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+
+private const val MAX_PAGE_SIZE = 30
 
 class SearchUsersViewModel(
     private val repository: SearchUserRepository,
-    private val userMapper: SearchResultToUserMapper
+    private val userMapper: SearchUserDtoToUserMapper,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<ViewModelState>(ViewModelState.LoadingState)
-    val uiState: StateFlow<ViewModelState> = _uiState
+    private val pagingConfig = PagingConfig(
+        pageSize = MAX_PAGE_SIZE,
+        enablePlaceholders = false
+    )
 
-    init {
-        loadData()
-    }
+    private val _query = MutableStateFlow("")
+    val query: StateFlow<String> = _query.asStateFlow()
 
-    private fun loadData() {
-        viewModelScope.launch {
-            _uiState.value = ViewModelState.LoadingState
-            val result = repository.search(
-                // todo pass real search data
-                query = "den",
-                page = 1,
-                perPage = 30
-            ).getOrNull()
-            _uiState.value = if (result != null) {
-                ViewModelState.LoadedState(userMapper.map(result))
-            } else {
-                ViewModelState.ErrorState
-            }
+    val pagerState: StateFlow<PagingData<User>> = query.map { newPager(it) }
+        .flatMapLatest { pager -> pager.flow }
+        .map { pagingData -> pagingData.map { userMapper.map(it) } }
+        .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+
+    private fun newPager(query: String): Pager<Int, SearchUserDto> {
+        return Pager(pagingConfig) {
+            repository.getSourceForSearch(query)
         }
     }
 
+    fun setQuery(query: String) {
+        _query.tryEmit(query)
+    }
 
     class Factory
     @Inject constructor(
         owner: SavedStateRegistryOwner,
         private val repository: SearchUserRepository,
-        private val userMapper: SearchResultToUserMapper
+        private val userMapper: SearchUserDtoToUserMapper,
     ) : AbstractSavedStateViewModelFactory(owner, null) {
 
         override fun <T : ViewModel?> create(
