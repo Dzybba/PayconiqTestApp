@@ -9,8 +9,9 @@ class SearchUserDtoToUserMapper
 
     fun map(dto: SearchUserDto): User {
         return User(
-            dto.login,
-            dto.avatarUrl
+            id = dto.id,
+            name = dto.login,
+            avatarUrl = dto.avatarUrl
         )
     }
 }

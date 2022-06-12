@@ -1,22 +1,24 @@
 package com.example.payconiqtestapp.searchlist.presentation
 
+import androidx.core.view.isVisible
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.map
+import androidx.paging.*
 import androidx.savedstate.SavedStateRegistryOwner
+import com.example.payconiqtestapp.R
 import com.example.payconiqtestapp.searchlist.data.dto.SearchUserDto
 import com.example.payconiqtestapp.searchlist.data.repository.SearchUserRepository
 import com.example.payconiqtestapp.searchlist.presentation.mapper.SearchUserDtoToUserMapper
 import com.example.payconiqtestapp.searchlist.presentation.model.User
+import com.example.payconiqtestapp.searchlist.presentation.model.ViewModelState
+import com.example.payconiqtestapp.searchlist.presentation.model.ViewState
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 private const val MAX_PAGE_SIZE = 30
+private const val DEBOUNCE_TIMEOUT = 500L
 
 class SearchUsersViewModel(
     private val repository: SearchUserRepository,
@@ -31,8 +33,13 @@ class SearchUsersViewModel(
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
 
-    val pagerState: StateFlow<PagingData<User>> = query.map { newPager(it) }
+    private val _viewModelState = MutableStateFlow<ViewModelState>(ViewModelState.EnterNameState)
+    val viewModelState: StateFlow<ViewModelState> = _viewModelState.asStateFlow()
+
+    val pagerState: StateFlow<PagingData<User>> = query.debounce(DEBOUNCE_TIMEOUT)
+        .map { newPager(it) }
         .flatMapLatest { pager -> pager.flow }
+        .cachedIn(viewModelScope)
         .map { pagingData -> pagingData.map { userMapper.map(it) } }
         .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
@@ -44,6 +51,40 @@ class SearchUsersViewModel(
 
     fun setQuery(query: String) {
         _query.tryEmit(query)
+    }
+
+    fun onViewStateChanged(viewState: ViewState) {
+        _viewModelState.tryEmit(getViewModelState(viewState))
+    }
+
+    private fun getViewModelState(viewState: ViewState): ViewModelState {
+        return when (viewState.loadingState) {
+            is LoadState.NotLoading -> {
+                getViewModelStateFromNotLoadedState(viewState)
+            }
+            is LoadState.Loading -> {
+                if (viewState.itemCount > 0) {
+                    ViewModelState.LoadedState
+                } else {
+                    ViewModelState.LoadingState
+                }
+            }
+            is LoadState.Error -> {
+                ViewModelState.ErrorState
+            }
+        }
+    }
+
+    private fun getViewModelStateFromNotLoadedState(viewState: ViewState): ViewModelState {
+        return if (viewState.itemCount > 0) {
+            ViewModelState.LoadedState
+        } else {
+            if (viewState.query.isEmpty()) {
+                ViewModelState.EnterNameState
+            } else {
+                ViewModelState.NotFoundState
+            }
+        }
     }
 
     class Factory

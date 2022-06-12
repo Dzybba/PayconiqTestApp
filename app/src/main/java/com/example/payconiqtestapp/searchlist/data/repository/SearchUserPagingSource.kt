@@ -1,5 +1,6 @@
 package com.example.payconiqtestapp.searchlist.data.repository
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.payconiqtestapp.searchlist.data.dto.SearchResultResponse
@@ -25,7 +26,7 @@ class SearchUserPagingSource
         val page = params.key ?: 1
         val response = service.search(query, page, params.loadSize)
         return if (response.isSuccessful) {
-            getPage(page, checkNotNull(response.body()))
+            getPage(page, params.loadSize, checkNotNull(response.body()))
         } else {
             LoadResult.Error(HttpException(response))
         }
@@ -33,9 +34,10 @@ class SearchUserPagingSource
 
     private fun getPage(
         currentPage: Int,
+        pageSize: Int,
         response: SearchResultResponse
     ): LoadResult<Int, SearchUserDto> {
-        val nextKey = if (response.incompleteResults) {
+        val nextKey = if (pageSize >= response.items.size) {
            currentPage + 1
         } else {
             null
