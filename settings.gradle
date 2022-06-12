@@ -46,6 +46,10 @@ dependencyResolutionManagement {
             library('retrofit.core', 'com.squareup.retrofit2', 'retrofit').versionRef('retrofitVersion')
             library('retrofit.converterMoshi', 'com.squareup.retrofit2', 'converter-moshi').versionRef('retrofitVersion')
 
+            version('lifecycleVersion', '2.4.1')
+            library('lifecycle.viewmodel', 'androidx.lifecycle', 'lifecycle-viewmodel-ktx').versionRef('lifecycleVersion')
+            library('lifecycle.runtime', 'androidx.lifecycle', 'lifecycle-runtime-ktx').versionRef('lifecycleVersion')
+
             library('test.junit', 'junit:junit:4.13.2')
             library('test.androidx.junitExt', 'androidx.test.ext:junit:1.1.3')
             library('test.espresso.core', 'androidx.test.espresso:espresso-core:3.4.0')

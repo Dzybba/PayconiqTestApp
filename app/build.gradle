@@ -47,9 +47,12 @@ dependencies {
     implementation libs.dagger
     implementation libs.retrofit.core
     implementation libs.moshi.core
+    implementation libs.lifecycle.viewmodel
+    implementation libs.lifecycle.runtime
     testImplementation libs.test.junit
     androidTestImplementation libs.test.androidx.junitExt
     androidTestImplementation libs.test.espresso.core
+
 
     implementation project(':core_api')
     implementation project(':core_impl')

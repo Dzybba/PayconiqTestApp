@@ -28,6 +28,7 @@ dependencies {
     implementation libs.moshi.core
     implementation libs.retrofit.converterMoshi
     implementation libs.retrofit.core
+    implementation libs.moshi.kotlin
 
     implementation project(':core_api')
 }
