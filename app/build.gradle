@@ -1,0 +1,55 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id("kotlin-kapt")
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.example.payconiqtestapp"
+        minSdk 23
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    kapt libs.dagger.kapt
+
+    implementation libs.androidx.coreKtx
+    implementation libs.androidx.appcompat
+    implementation libs.android.material
+    implementation libs.androidx.constraintlayout
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    implementation libs.dagger
+    implementation libs.retrofit.core
+    testImplementation libs.test.junit
+    androidTestImplementation libs.test.androidx.junitExt
+    androidTestImplementation libs.test.espresso.core
+
+    implementation project(':core_api')
+    implementation project(':core_impl')
+}

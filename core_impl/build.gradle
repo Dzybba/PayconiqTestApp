@@ -1,0 +1,33 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id("kotlin-kapt")
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 23
+        targetSdk 32
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    kapt libs.dagger.kapt
+    implementation libs.dagger
+    implementation libs.okhttp
+    implementation libs.moshi.core
+    implementation libs.retrofit.converterMoshi
+    implementation libs.retrofit.core
+
+    implementation project(':core_api')
+}
