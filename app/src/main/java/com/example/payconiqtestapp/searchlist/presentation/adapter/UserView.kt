@@ -6,6 +6,7 @@ import androidx.annotation.AttrRes
 import com.example.payconiqtestapp.R
 import com.example.payconiqtestapp.databinding.ItemUserContentBinding
 import com.example.payconiqtestapp.searchlist.presentation.model.User
+import com.example.payconiqtestapp.utils.imageview.showCircleImage
 import com.google.android.material.card.MaterialCardView
 
 class UserView @JvmOverloads constructor(
@@ -21,7 +22,7 @@ class UserView @JvmOverloads constructor(
     }
 
     fun populate(user: User?) {
-        // todo
+        user?.avatarUrl?.let { binding.avatar.showCircleImage(it) }
         binding.name.text = user?.name
     }
 }

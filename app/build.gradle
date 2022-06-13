@@ -52,6 +52,11 @@ dependencies {
     implementation libs.paging.common
     implementation libs.paging.runtime
 
+    implementation libs.glideCore
+    kapt libs.glideCompiler
+    implementation libs.glideOkhttp3Integration
+    implementation libs.glideTransformation
+
     testImplementation libs.test.junit
     androidTestImplementation libs.test.androidx.junitExt
     androidTestImplementation libs.test.espresso.core
