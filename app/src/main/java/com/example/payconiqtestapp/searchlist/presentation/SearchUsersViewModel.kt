@@ -12,6 +12,7 @@ import com.example.payconiqtestapp.searchlist.presentation.mapper.SearchUserDtoT
 import com.example.payconiqtestapp.searchlist.presentation.model.User
 import com.example.payconiqtestapp.searchlist.presentation.model.ViewModelState
 import com.example.payconiqtestapp.searchlist.presentation.model.ViewState
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -27,6 +28,12 @@ class SearchUsersViewModel(
         pageSize = MAX_PAGE_SIZE,
         enablePlaceholders = false
     )
+
+    private val _openDetailsFlow = MutableSharedFlow<String>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val openDetailsFlow = _openDetailsFlow.asSharedFlow()
 
     private val queryFlow = MutableStateFlow("")
 
@@ -85,7 +92,7 @@ class SearchUsersViewModel(
     }
 
     fun onUserClicked(user: User?) {
-        // todo
+        user?.let { _openDetailsFlow.tryEmit(it.name) }
     }
 
     class Factory

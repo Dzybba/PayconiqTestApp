@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.payconiqtestapp.SecondFragment"
+        android:name="com.example.payconiqtestapp.userdetails.presentation.UserDetailsFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_user_details">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

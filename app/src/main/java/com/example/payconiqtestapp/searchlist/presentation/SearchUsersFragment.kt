@@ -12,6 +12,7 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.payconiqtestapp.R
 import com.example.payconiqtestapp.core.ProvidersHolder
 import com.example.payconiqtestapp.databinding.FragmentSearchUserBinding
@@ -19,6 +20,8 @@ import com.example.payconiqtestapp.searchlist.di.SearchUsersComponent
 import com.example.payconiqtestapp.searchlist.presentation.adapter.UserAdapter
 import com.example.payconiqtestapp.searchlist.presentation.model.ViewModelState
 import com.example.payconiqtestapp.searchlist.presentation.model.ViewState
+import com.example.payconiqtestapp.userdetails.presentation.UserDetailsFragmentContract
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -73,8 +76,16 @@ class SearchUsersFragment : Fragment() {
                 launch {
                     viewModel.viewModelState.collectLatest { handleViewModelState(it) }
                 }
+                launch {
+                    viewModel.openDetailsFlow.collect { handleOpenDetailsEvent(it) }
+                }
             }
         }
+    }
+
+    private fun handleOpenDetailsEvent(login: String) {
+        val bundle = UserDetailsFragmentContract.getBundle(login)
+        findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment, bundle)
     }
 
     private fun handleViewModelState(viewModelState: ViewModelState) {

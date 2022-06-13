@@ -1,9 +1,10 @@
-package com.example.payconiqtestapp.searchlist.di
+package com.example.payconiqtestapp.userdetails.di
 
 import androidx.savedstate.SavedStateRegistryOwner
 import com.example.payconiqtestapp.core.ProvidersAccumulator
 import com.example.payconiqtestapp.di.GithubApiServiceModule
 import com.example.payconiqtestapp.searchlist.presentation.SearchUsersFragment
+import com.example.payconiqtestapp.userdetails.presentation.UserDetailsFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -11,20 +12,22 @@ import dagger.Component
     dependencies = [ProvidersAccumulator::class],
     modules = [
         GithubApiServiceModule::class,
-        SearchUsersViewModelModule::class
+        UserDetailsViewModelModule::class
     ]
 )
-interface SearchUsersComponent {
+interface UserDetailsComponent {
 
     companion object {
 
         fun create(
             providersAccumulator: ProvidersAccumulator,
+            login: String,
             savedStateRegistryOwner: SavedStateRegistryOwner
-        ): SearchUsersComponent {
-            return DaggerSearchUsersComponent.factory()
+        ): UserDetailsComponent {
+            return DaggerUserDetailsComponent.factory()
                 .create(
                     providersAccumulator,
+                    login,
                     savedStateRegistryOwner
                 )
         }
@@ -35,9 +38,10 @@ interface SearchUsersComponent {
 
         fun create(
             providersAccumulator: ProvidersAccumulator,
+            @BindsInstance login: String,
             @BindsInstance savedStateRegistryOwner: SavedStateRegistryOwner
-        ): SearchUsersComponent
+        ): UserDetailsComponent
     }
 
-    fun inject(fragment: SearchUsersFragment)
+    fun inject(fragment: UserDetailsFragment)
 }

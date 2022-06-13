@@ -1,4 +1,4 @@
-package com.example.payconiqtestapp.searchlist.di
+package com.example.payconiqtestapp.di
 
 import com.example.payconiqtestapp.data.service.GithubApiService
 import dagger.Module
