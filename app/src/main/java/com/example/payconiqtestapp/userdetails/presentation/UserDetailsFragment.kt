@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.payconiqtestapp.R
 import com.example.payconiqtestapp.core.ProvidersHolder
 import com.example.payconiqtestapp.databinding.FragmentUserDetailsBinding
 import com.example.payconiqtestapp.userdetails.di.UserDetailsComponent
@@ -38,6 +40,7 @@ class UserDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModelEvents()
+        binding.reloadButton.setOnClickListener { viewModel.reload() }
     }
 
     private fun observeViewModelEvents() {
@@ -53,11 +56,19 @@ class UserDetailsFragment : Fragment() {
     private fun handleViewModelState(state: ViewModelState) {
         when (state) {
             is ViewModelState.Error -> {
+                binding.reloadButton.isVisible = true
+                binding.infoView.isVisible = true
+                binding.infoView.text = getString(R.string.error_happened)
             }
             is ViewModelState.Loaded -> {
+                binding.reloadButton.isVisible = false
+                binding.infoView.isVisible = false
                 binding.userDetails.populate(state.user)
             }
             is ViewModelState.Loading -> {
+                binding.reloadButton.isVisible = false
+                binding.infoView.isVisible = true
+                binding.infoView.text = getString(R.string.loading)
             }
         }
     }
