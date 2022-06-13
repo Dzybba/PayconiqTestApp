@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.savedstate.SavedStateRegistryOwner
 import com.example.payconiqtestapp.userdetails.data.repository.UserDetailsRepository
+import com.example.payconiqtestapp.userdetails.presentation.mapper.UserDetailsResponseToModelMapper
 import com.example.payconiqtestapp.userdetails.presentation.model.ViewModelState
-import com.example.payconiqtestapp.userdetails.presentation.view.UserDetailsModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -15,7 +15,8 @@ import javax.inject.Inject
 
 class UserDetailsViewModel(
     private val login: String,
-    private val userDetailsRepository: UserDetailsRepository
+    private val userDetailsRepository: UserDetailsRepository,
+    private val responseToModelMapper: UserDetailsResponseToModelMapper
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ViewModelState>(ViewModelState.Loading)
@@ -31,22 +32,7 @@ class UserDetailsViewModel(
             val result = userDetailsRepository.getUserDetails(login)
             _uiState.value = if (result.isSuccessful) {
                 val response = checkNotNull(result.body())
-                ViewModelState.Loaded(
-                    UserDetailsModel(
-                        login = response.login,
-                        avatarUrl = response.avatarUrl,
-                        name = response.name,
-                        company = response.company,
-                        location = response.location,
-                        email = response.email,
-                        bio = response.bio,
-                        twitterUsername = response.twitterUsername,
-                        publicRepos = response.publicRepos,
-                        publicGists = response.publicGists,
-                        followers = response.followers,
-                        following = response.following
-                    )
-                )
+                ViewModelState.Loaded(responseToModelMapper.map(response))
             } else {
                 ViewModelState.Error
             }
@@ -61,7 +47,8 @@ class UserDetailsViewModel(
     @Inject constructor(
         owner: SavedStateRegistryOwner,
         private val login: String,
-        private val userDetailsRepository: UserDetailsRepository
+        private val userDetailsRepository: UserDetailsRepository,
+        private val responseToModelMapper: UserDetailsResponseToModelMapper
     ) : AbstractSavedStateViewModelFactory(owner, null) {
 
         override fun <T : ViewModel?> create(
@@ -71,7 +58,8 @@ class UserDetailsViewModel(
         ): T {
             return UserDetailsViewModel(
                 login,
-                userDetailsRepository
+                userDetailsRepository,
+                responseToModelMapper
             ) as T
         }
     }

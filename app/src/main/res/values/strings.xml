@@ -15,4 +15,10 @@
     <string name="enter_name">Enter name</string>
     <string name="nothing_found">Nothing found</string>
     <string name="user_score">User score - %d</string>
+
+    <string name="user_login">Login</string>
+    <string name="user_name">Name</string>
+    <string name="user_company">Company</string>
+    <string name="user_location">Location</string>
+    <string name="user_email">Email</string>
 </resources>
