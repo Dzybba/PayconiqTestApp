@@ -44,7 +44,7 @@ class SearchUsersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = UserAdapter(requireContext())
+        adapter = UserAdapter(requireContext()) { viewModel.onUserClicked(it) }
         binding.usersRecycler.adapter = adapter
         binding.searchQuery.doAfterTextChanged { text ->
             viewModel.setQuery(text?.toString() ?: "")
@@ -63,7 +63,6 @@ class SearchUsersFragment : Fragment() {
 //            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
 //        }
     }
-
 
     private fun observeOnLifecycle() {
         viewLifecycleOwner.lifecycleScope.launch {

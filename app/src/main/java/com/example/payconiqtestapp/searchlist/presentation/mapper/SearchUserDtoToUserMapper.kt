@@ -11,7 +11,8 @@ class SearchUserDtoToUserMapper
         return User(
             id = dto.id,
             name = dto.login,
-            avatarUrl = dto.avatarUrl
+            avatarUrl = dto.avatarUrl,
+            score = dto.score
         )
     }
 }

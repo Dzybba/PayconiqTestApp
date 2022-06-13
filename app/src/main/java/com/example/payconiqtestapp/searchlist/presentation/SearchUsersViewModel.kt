@@ -1,13 +1,11 @@
 package com.example.payconiqtestapp.searchlist.presentation
 
-import androidx.core.view.isVisible
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import androidx.savedstate.SavedStateRegistryOwner
-import com.example.payconiqtestapp.R
 import com.example.payconiqtestapp.searchlist.data.dto.SearchUserDto
 import com.example.payconiqtestapp.searchlist.data.repository.SearchUserRepository
 import com.example.payconiqtestapp.searchlist.presentation.mapper.SearchUserDtoToUserMapper
@@ -30,13 +28,12 @@ class SearchUsersViewModel(
         enablePlaceholders = false
     )
 
-    private val _query = MutableStateFlow("")
-    val query: StateFlow<String> = _query.asStateFlow()
+    private val queryFlow = MutableStateFlow("")
 
     private val _viewModelState = MutableStateFlow<ViewModelState>(ViewModelState.EnterNameState)
     val viewModelState: StateFlow<ViewModelState> = _viewModelState.asStateFlow()
 
-    val pagerState: StateFlow<PagingData<User>> = query.debounce(DEBOUNCE_TIMEOUT)
+    val pagerState: StateFlow<PagingData<User>> = queryFlow.debounce(DEBOUNCE_TIMEOUT)
         .map { newPager(it) }
         .flatMapLatest { pager -> pager.flow }
         .cachedIn(viewModelScope)
@@ -50,7 +47,7 @@ class SearchUsersViewModel(
     }
 
     fun setQuery(query: String) {
-        _query.tryEmit(query)
+        queryFlow.tryEmit(query)
     }
 
     fun onViewStateChanged(viewState: ViewState) {
@@ -85,6 +82,10 @@ class SearchUsersViewModel(
                 ViewModelState.NotFoundState
             }
         }
+    }
+
+    fun onUserClicked(user: User?) {
+        // todo
     }
 
     class Factory

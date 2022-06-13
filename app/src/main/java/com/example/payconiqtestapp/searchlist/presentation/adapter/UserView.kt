@@ -17,12 +17,16 @@ class UserView @JvmOverloads constructor(
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) { ItemUserContentBinding.bind(this) }
 
+    var clickAction: () -> Unit = {}
+
     init {
         inflate(context, R.layout.item_user_content, this)
+        setOnClickListener { clickAction() }
     }
 
     fun populate(user: User?) {
         user?.avatarUrl?.let { binding.avatar.showCircleImage(it) }
         binding.name.text = user?.name
+        binding.scrore.text = resources.getString(R.string.user_score, user?.score ?: 0)
     }
 }

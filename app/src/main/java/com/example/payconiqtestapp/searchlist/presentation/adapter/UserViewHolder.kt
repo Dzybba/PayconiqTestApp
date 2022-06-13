@@ -4,9 +4,15 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.payconiqtestapp.searchlist.presentation.model.User
 
-class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class UserViewHolder(
+    itemView: View,
+    private val onClickAction: (user: User?) -> Unit
+) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(user: User?) {
-        (itemView as? UserView)?.populate(user)
+        (itemView as? UserView)?.let {
+            it.populate(user)
+            it.clickAction = { onClickAction(user) }
+        }
     }
 }

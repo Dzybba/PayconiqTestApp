@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
-            android:textAppearance="?textAppearanceHeadline5"
+            android:textAppearance="?textAppearanceHeadline6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/avatar"
             app:layout_constraintTop_toTopOf="parent"
@@ -48,5 +48,18 @@
             tools:text="@tools:sample/lorem"
             />
 
+        <TextView
+            android:id="@+id/scrore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:textAppearance="?textAppearanceCaption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_goneMarginTop="8dp"
+            tools:text="@tools:sample/lorem"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </merge>

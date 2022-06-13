@@ -7,8 +7,10 @@ import androidx.paging.PagingDataAdapter
 import com.example.payconiqtestapp.R
 import com.example.payconiqtestapp.searchlist.presentation.model.User
 
-class UserAdapter(context: Context) :
-    PagingDataAdapter<User, UserViewHolder>(UserDiffItemCallback()) {
+class UserAdapter(
+    context: Context,
+    private val onClickAction: (user: User?) -> Unit
+) : PagingDataAdapter<User, UserViewHolder>(UserDiffItemCallback()) {
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -22,6 +24,6 @@ class UserAdapter(context: Context) :
             parent,
             false
         )
-        return UserViewHolder(view)
+        return UserViewHolder(view, onClickAction)
     }
 }

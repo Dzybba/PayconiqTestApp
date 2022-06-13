@@ -14,4 +14,5 @@
     <string name="loading">Loading…</string>
     <string name="enter_name">Enter name</string>
     <string name="nothing_found">Nothing found</string>
+    <string name="user_score">User score - %d</string>
 </resources>

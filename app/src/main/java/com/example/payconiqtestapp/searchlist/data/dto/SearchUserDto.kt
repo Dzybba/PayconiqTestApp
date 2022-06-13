@@ -7,5 +7,6 @@ data class SearchUserDto(
     val login: String,
     @Json(name = "avatar_url")
     val avatarUrl: String,
-    val url: String
+    val url: String,
+    val score: Int
 )
