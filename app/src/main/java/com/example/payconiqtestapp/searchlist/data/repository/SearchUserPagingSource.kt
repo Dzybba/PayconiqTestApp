@@ -1,11 +1,10 @@
 package com.example.payconiqtestapp.searchlist.data.repository
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.payconiqtestapp.searchlist.data.dto.SearchResultResponse
-import com.example.payconiqtestapp.searchlist.data.dto.SearchUserDto
-import com.example.payconiqtestapp.searchlist.data.service.GithubApiService
+import com.example.payconiqtestapp.data.dto.SearchResultResponse
+import com.example.payconiqtestapp.data.dto.SearchUserDto
+import com.example.payconiqtestapp.data.service.GithubApiService
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

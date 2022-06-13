@@ -1,6 +1,6 @@
 package com.example.payconiqtestapp.searchlist.di
 
-import com.example.payconiqtestapp.searchlist.data.service.GithubApiService
+import com.example.payconiqtestapp.data.service.GithubApiService
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

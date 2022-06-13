@@ -1,4 +1,4 @@
-package com.example.payconiqtestapp.searchlist.data.dto
+package com.example.payconiqtestapp.data.dto
 
 import com.squareup.moshi.Json
 

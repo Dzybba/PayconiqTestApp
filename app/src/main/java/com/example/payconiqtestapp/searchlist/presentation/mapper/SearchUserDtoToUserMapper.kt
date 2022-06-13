@@ -1,6 +1,6 @@
 package com.example.payconiqtestapp.searchlist.presentation.mapper
 
-import com.example.payconiqtestapp.searchlist.data.dto.SearchUserDto
+import com.example.payconiqtestapp.data.dto.SearchUserDto
 import com.example.payconiqtestapp.searchlist.presentation.model.User
 import javax.inject.Inject
 

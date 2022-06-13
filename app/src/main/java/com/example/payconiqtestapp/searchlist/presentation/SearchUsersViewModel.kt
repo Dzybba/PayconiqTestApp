@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import androidx.savedstate.SavedStateRegistryOwner
-import com.example.payconiqtestapp.searchlist.data.dto.SearchUserDto
+import com.example.payconiqtestapp.data.dto.SearchUserDto
 import com.example.payconiqtestapp.searchlist.data.repository.SearchUserRepository
 import com.example.payconiqtestapp.searchlist.presentation.mapper.SearchUserDtoToUserMapper
 import com.example.payconiqtestapp.searchlist.presentation.model.User
